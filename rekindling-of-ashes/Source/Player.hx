@@ -30,17 +30,17 @@ class Player extends Sprite {
   }
 
   // Put player in the middle of the screen using dimensions of stage object
-  public function center(stage:Stage) {
-    this.bitmap.x = (stage.stageWidth - bitmap.width)/2;
-    this.bitmap.y = (stage.stageHeight - bitmap.height)/2;
+  public function center() {
+    this.bitmap.x = XCENTER;
+    this.bitmap.y = YCENTER;
   }
 
-  public function new(main:Sprite, stage:Stage) {
+  public function new(main:Sprite) {
     super();
 
     var bitmapData = Assets.getBitmapData(IMAGEPATH);
     this.bitmap = new Bitmap(bitmapData);
-    this.center(stage);  // Put sprite in center
+    this.center();  // Put sprite in center
     // Render bitmap with DisplayObjectContainer/Sprite object
     main.addChild(this.bitmap);
   }

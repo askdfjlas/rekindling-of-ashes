@@ -6,20 +6,26 @@ import openfl.display.Stage;
 import Global.*;
 
 class TileMap {
+  /* Pre-calculate number of tiles to the left and right of the midpoint, used
+  for faster rendering */
+  private static var HTILEDEPTH:Int = Math.ceil(XCENTER/TILESIZE) + 1;
+  private static var VTILEDEPTH:Int = Math.ceil(YCENTER/TILESIZE) + 1;
+
+  // 2D array of tiles to store the map
   public var mapArray:Array<Array<Tile>> = [];
 
   // Render the tilemap
-  public function render(stage:Stage) {
+  public function render() {
     /* First create the range of tiles to update the position of; this
     is an optimization which prevents offscreen tiles from being redrawn.
     The result is a rectangular area defined by 4 endpoints in the array. */
-    var xEndpointL:Int = Std.int(Math.max(0, GameState.xt - 1));
+    var xEndpointL:Int = Std.int(Math.max(0, GameState.xt - HTILEDEPTH));
     var xEndpointR:Int = Std.int(Math.min(this.mapArray[0].length,
-      GameState.xt + Math.ceil(stage.stageWidth/TILESIZE) + 1
+      GameState.xt + HTILEDEPTH + 1
     ));
-    var yEndpointU:Int = Std.int(Math.max(0, GameState.yt - 1));
+    var yEndpointU:Int = Std.int(Math.max(0, GameState.yt - VTILEDEPTH));
     var yEndpointD:Int = Std.int(Math.min(this.mapArray.length,
-      GameState.yt + Math.ceil(stage.stageHeight/TILESIZE) + 1
+      GameState.yt + VTILEDEPTH + 1
     ));
 
     // Then update the positions of all tiles witihin that rectangle
@@ -31,7 +37,7 @@ class TileMap {
       xPos = xEndpointL*TILESIZE;
       for(j in xEndpointL...xEndpointR) {
         var tile = this.mapArray[i][j];  // Current tile
-        tile.update(xPos - GameState.x, yPos - GameState.y);
+        tile.update(xPos - GameState.x + XCENTER, yPos - GameState.y + YCENTER);
         xPos += TILESIZE;
       }
       yPos += TILESIZE;

@@ -5,6 +5,9 @@ import openfl.display.Sprite;
 import worldMap.*;
 
 class GameState {
+  // Player object
+  public static var vs:Player;
+
   // Player position in pixels
   public static var x:Int = 0;
   public static var y:Int = 0;
