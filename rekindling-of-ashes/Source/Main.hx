@@ -18,7 +18,7 @@ class Main extends Sprite
 		worldMap.TileLoader.init();  // Load tile bitmaps
 		Input.init(stage);  // Init input handling
 		worldMap.Maps.init();  // Init TileMap objects
-		GameState.updateMap(this);
+		GameState.updateMap(this);  // Load specific map
 		GameState.vs = new Player(this);  // Instantiate player
 
 		this.addEventListener(Event.ENTER_FRAME, gameLoop);  // Init game loop
