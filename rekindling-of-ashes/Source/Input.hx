@@ -33,7 +33,7 @@ class Input extends Sprite {
           Input.inputs[KeyIndexes.LEFT] = true;
           Input.rightShiftInputs(LEFT);
         }
-      case Keyboard.RIGHT:  // Right arrow
+      case Keyboard.RIGHT:  // Right Arrow
         if(!Input.inputs[KeyIndexes.RIGHT]) {
           Input.inputs[KeyIndexes.RIGHT] = true;
           Input.rightShiftInputs(RIGHT);
