@@ -6,7 +6,7 @@ import openfl.display.Bitmap;
 
 class Tile extends Sprite {
   // The type of the tile is an integer x which corresponds to x.png
-  private var type:Int;
+  public var type:Int;
   private var bitmap:Bitmap;
 
   // Place the bitmap on the screen

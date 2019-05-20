@@ -4,6 +4,7 @@ package;
 // States of movement
 enum MoveState {
   STOP;
+  STUCK;
   UP;
   DOWN;
   LEFT;

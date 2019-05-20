@@ -5,6 +5,7 @@ import openfl.display.Sprite;
 import openfl.display.Bitmap;
 import openfl.display.Stage;
 import openfl.Assets;
+import worldMap.Collision.CollisionType;
 import Global.*;
 import Global.MoveState;
 
@@ -13,31 +14,35 @@ class Player extends Sprite {
   private static var IMAGEPATH:String = "assets/Sprites/People/Player/";  // Image sprite
   private static var SPRITENAMES = ['U','D', 'L', 'R'];  // Player{U/D/...}.png
   private static var SPRITEINDEXES = ['U'=> 0, 'D'=> 1, 'L'=> 2, 'R'=> 3];
+  private static var TOTALWALKFRAMES = Std.int(TILESIZE/MOVESPEED);
 
   private var bitmaps:Array<Bitmap> = [];  // Player bitmaps
   private var walkState:MoveState = STOP;  // Stopped or moving in a direction
+  private var walkFrames:Int = 0;  //
   private var animState = 'D';  // Store current animation state
 
   public function updateMovement() {  // Player walking
     var inputs = Input.inputs;
     var last = Input.lastInputs[0];  // Last input takes precedence
 
+    // Collision detection function shorthand
+    var collide = worldMap.Collision.collide;
     // Only take in inputs if the player is currently stopped
     if(this.walkState == STOP) {
       if(inputs[KeyIndexes.UP] && last == UP) {
-        this.walkState = UP;
+        this.walkState = (collide(UP) != WALL) ? UP : STUCK;
         this.changeAnim('U');
       }
       else if(inputs[KeyIndexes.DOWN] && last == DOWN) {
-        this.walkState = DOWN;
+        this.walkState = (collide(DOWN) != WALL) ? DOWN : STUCK;
         this.changeAnim('D');
       }
       else if(inputs[KeyIndexes.LEFT] && last == LEFT) {
-        this.walkState = LEFT;
+        this.walkState = (collide(LEFT) != WALL) ? LEFT : STUCK;
         this.changeAnim('L');
       }
       else if(inputs[KeyIndexes.RIGHT] && last == RIGHT) {
-        this.walkState = RIGHT;
+        this.walkState = (collide(RIGHT) != WALL) ? RIGHT : STUCK;
         this.changeAnim('R');
       }
     }
@@ -46,6 +51,7 @@ class Player extends Sprite {
       // Update position during non-stopped walkstates
       switch(this.walkState) {
         case STOP:  // Needed for compilation
+        case STUCK:
         case UP:
           GameState.y -= MOVESPEED;
         case DOWN:
@@ -55,13 +61,16 @@ class Player extends Sprite {
         case RIGHT:
           GameState.x += MOVESPEED;
       }
+      this.walkFrames++;  // Increment walk frame
 
-      // If an "integer" tile has been hit, stop
-      if(GameState.x % TILESIZE == 0 && GameState.y % TILESIZE == 0) {
+      // If TOTALWALKFRAMES has been hit, stop
+      if(this.walkFrames == TOTALWALKFRAMES) {
         this.walkState = STOP;
         // Update tile coordinates
         GameState.xt = Math.floor(GameState.x/TILESIZE);
         GameState.yt = Math.floor(GameState.y/TILESIZE);
+        // Reset walkFrames
+        this.walkFrames = 0;
       }
     }
   }
