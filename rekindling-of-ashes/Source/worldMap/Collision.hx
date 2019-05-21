@@ -11,7 +11,9 @@ enum CollisionType {
 
 class Collision {
   // Tile types hashed to collision types
-  private static var collisionMap = [0=>WALL, 1=>PASS, 2=>PASS, 3=>PASS];
+  private static var collisionMap =
+  [0=>WALL, 1=>PASS, 2=>PASS, 3=>PASS, 4=>WALL, 5=>PASS, 6=>PASS, 7=>WALL,
+  8=>WALL];
 
   // Return the collision type of the seeked tile
   private static function getCollisionType(x:Int, y:Int):CollisionType {

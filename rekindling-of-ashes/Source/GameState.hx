@@ -9,15 +9,15 @@ class GameState {
   public static var vs:Player;
 
   // Player position in pixels
-  public static var x:Int = 0;
-  public static var y:Int = 0;
+  public static var x:Int = 32;
+  public static var y:Int = 64;
 
   // Player position in tiles
-  public static var xt:Int = 0;
-  public static var yt:Int = 0;
+  public static var xt:Int = 1;
+  public static var yt:Int = 2;
 
   // Current tilemap the player is on
-  public static var mapNumber:Int = 0;
+  public static var mapNumber:Int = 1;
   public static var tileMap:TileMap;
 
   // Store and update map as part of the game state

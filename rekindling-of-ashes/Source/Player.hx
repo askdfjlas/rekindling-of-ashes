@@ -18,7 +18,7 @@ class Player extends Sprite {
 
   private var bitmaps:Array<Bitmap> = [];  // Player bitmaps
   private var walkState:MoveState = STOP;  // Stopped or moving in a direction
-  private var walkFrames:Int = 0;  //
+  private var walkFrames:Int = 0;  // Frame counter of walk animation
   private var animState = 'D';  // Store current animation state
 
   public function updateMovement() {  // Player walking

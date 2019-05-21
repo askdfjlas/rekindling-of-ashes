@@ -47,10 +47,18 @@ class TileMap {
   // Initially place all tiles on screen
   public function init(main:Sprite) {
     // Iterate over 2D array, drawing each tile individually
-    for(row in mapArray) {
-      for(tile in row) {
-        tile.init(main);
+    // Bottom to top, to allow shadows from the top
+    var i = this.mapArray.length - 1;
+    while(i >= 0) {
+      var row = this.mapArray[i];
+
+      // Right to left, to allow shadows from the left
+      var j = row.length - 1;
+      while(j >= 0) {
+        row[j].init(main);
+        j--;
       }
+      i--;
     }
   }
 

@@ -6,7 +6,7 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 
 class TileLoader {
-  private static var NUMTILES:Int = 4;  // Total number of tiles to load
+  private static var NUMTILES:Int = 9;  // Total number of tiles to load
   private static var IMAGEPATH = "assets/Sprites/Tiles/";  // Path to tile pngs
   public static var tileData:Array<BitmapData> = [];  // Array of BitmapData objects
 
