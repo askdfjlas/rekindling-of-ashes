@@ -70,7 +70,7 @@ class TileMap {
       for(v in row) {
         currentRow.push(new Tile(v));  // Add a tile
       }
-      mapArray.push(currentRow);  // Push the current row
+      this.mapArray.push(currentRow);  // Push the current row
     }
   }
 }

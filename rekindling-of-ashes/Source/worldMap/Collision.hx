@@ -3,29 +3,23 @@ package worldMap;
 
 import Global.MoveState;
 
-// Types of tiles
+// Types of collision tiles
 enum CollisionType {
   PASS;
   WALL;
 }
 
 class Collision {
-  // Tile types hashed to collision types
-  private static var collisionMap =
-  [0=>WALL, 1=>PASS, 2=>PASS, 3=>PASS, 4=>WALL, 5=>PASS, 6=>PASS, 7=>WALL,
-  8=>WALL];
-
   // Return the collision type of the seeked tile
   private static function getCollisionType(x:Int, y:Int):CollisionType {
-    var map = GameState.tileMap.mapArray;
+    var map = GameState.collisionMap.mapArray;
 
     // If seeking an out of bounds tile
     if(x < 0 || x >= map[0].length || y < 0 || y >= map.length) {
       return WALL;
     }
     else {
-      var tile = map[y][x];
-      return Collision.collisionMap[tile.type];
+      return map[y][x];
     }
   }
 
