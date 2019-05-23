@@ -4,7 +4,7 @@ package worldMap;
 import openfl.display.Sprite;
 import openfl.display.Bitmap;
 
-class Tile extends Sprite {
+class Tile {
   // The type of the tile is an integer x which corresponds to x.png
   public var type:Int;
   private var bitmap:Bitmap;
@@ -22,10 +22,8 @@ class Tile extends Sprite {
 
   // Tile(x) creates a tile of type x
   public function new(num:Int) {
-    super();
-
     this.type = num;  // Set the type of the tile
-    var bitmapData = TileLoader.tileData[this.type];  // Get BitmapData
+    var bitmapData = AssetLoader.tileData[this.type];  // Get BitmapData
     this.bitmap = new Bitmap(bitmapData);  // Create bitmap
   }
 }

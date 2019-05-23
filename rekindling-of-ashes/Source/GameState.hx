@@ -3,6 +3,7 @@ package;
 
 import openfl.display.Sprite;
 import worldMap.*;
+import objects.*;
 
 class GameState {
   // Player object
@@ -20,11 +21,13 @@ class GameState {
   public static var mapNumber:Int = 1;
   public static var tileMap:TileMap;
   public static var collisionMap:CollisionMap;
+  public static var objectList:ObjectList;
 
   // Store and update map as part of the game state
   public static function updateMap(main:Sprite) {
     GameState.tileMap = worldMap.Maps.tileMaps[GameState.mapNumber];
     GameState.collisionMap = worldMap.Maps.collisionMaps[GameState.mapNumber];
+    GameState.objectList = objects.Lists.objectLists[GameState.mapNumber];
     GameState.tileMap.init(main);
   }
 }

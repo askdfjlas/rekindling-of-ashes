@@ -1,5 +1,5 @@
 // Class for player-related entities
-package;
+package objects;
 
 import openfl.display.Sprite;
 import openfl.display.Bitmap;
@@ -9,7 +9,7 @@ import worldMap.Collision.CollisionType;
 import Global.*;
 import Global.MoveState;
 
-class Player extends Sprite {
+class Player {
   private static var YOFFSET = 16;
   private static var IMAGEPATH:String = "assets/Sprites/People/Player/";  // Image sprite
   private static var SPRITENAMES = ['U','D', 'L', 'R'];  // Player{U/D/...}.png
@@ -92,6 +92,20 @@ class Player extends Sprite {
     this.updateMovement();
   }
 
+  // Add player to the display
+  public function add(main:Sprite) {
+    for(bitmap in this.bitmaps) {
+      main.addChild(bitmap);
+    }
+  }
+
+  // Remove player from the display
+  public function remove(main:Sprite) {
+    for(bitmap in this.bitmaps) {
+      main.removeChild(bitmap);
+    }
+  }
+
   // Put player in the middle of the screen using dimensions of stage object
   public function center(bitmap:Bitmap) {
     bitmap.x = XCENTER;
@@ -100,17 +114,12 @@ class Player extends Sprite {
   }
 
   public function new(main:Sprite) {
-    super();
-
     // Iterate over all player Sprites, adding them to the display
     for(name in Player.SPRITENAMES) {
       var bitmapData = Assets.getBitmapData(IMAGEPATH + 'Player$name.png');
       var bitmap = new Bitmap(bitmapData);
       this.center(bitmap);  // Put sprite in center and disable it
       this.bitmaps.push(bitmap);  // Add the new bitmap
-
-      // Render bitmap with DisplayObjectContainer/Sprite object
-      main.addChild(bitmap);
     }
 
     // Make initial animation state visible
