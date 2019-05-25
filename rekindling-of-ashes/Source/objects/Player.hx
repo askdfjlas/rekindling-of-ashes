@@ -12,14 +12,19 @@ import Global.MoveState;
 class Player {
   private static var YOFFSET = 16;
   private static var IMAGEPATH:String = "assets/Sprites/People/Player/";  // Image sprite
-  private static var SPRITENAMES = ['U','D', 'L', 'R'];  // Player{U/D/...}.png
-  private static var SPRITEINDEXES = ['U'=> 0, 'D'=> 1, 'L'=> 2, 'R'=> 3];
+  private static var SPRITENAMES = ['U','D', 'L', 'R',  // Player{U/D/...}.png
+                                    'LL', 'LR', 'RL', 'RR'];
+  private static var SPRITEINDEXES = ['U'=> 0, 'D'=> 1, 'L'=> 2, 'R'=> 3,
+                                      'LL'=> 4, 'LR'=> 5, 'RL'=> 6, 'RR'=> 7];
+  public static var MOVESPEED = 2;  // Movement speed, must divide TILESIZE
   private static var TOTALWALKFRAMES = Std.int(TILESIZE/MOVESPEED);
+  private static var ANIMFRAMES = [4, 12];  // Range of "foot out" animation
 
   private var bitmaps:Array<Bitmap> = [];  // Player bitmaps
   private var walkState:MoveState = STOP;  // Stopped or moving in a direction
   private var walkFrames:Int = 0;  // Frame counter of walk animation
   private var animState = 'D';  // Store current animation state
+  private var rightFoot = true;  // Is the player walking with their right foot next?
 
   public function updateMovement() {  // Player walking
     var inputs = Input.inputs;
@@ -62,6 +67,7 @@ class Player {
           GameState.x += MOVESPEED;
       }
       this.walkFrames++;  // Increment walk frame
+      this.selectWalkAnim();  // Select which animation to use
 
       // If TOTALWALKFRAMES has been hit, stop
       if(this.walkFrames == TOTALWALKFRAMES) {
@@ -71,6 +77,22 @@ class Player {
         GameState.yt = Math.floor(GameState.y/TILESIZE);
         // Reset walkFrames
         this.walkFrames = 0;
+      }
+    }
+  }
+
+  // Depending on this.walkFrames, choose an animation
+  private function selectWalkAnim() {
+    // "Foot out" frame
+    if(this.walkState == LEFT || this.walkState == RIGHT) {
+      if(this.walkFrames == ANIMFRAMES[0]) {
+        // Update the animation to stick a foot out
+        this.changeAnim(this.animState + (this.rightFoot ? 'R' : 'L'));
+        this.rightFoot = !this.rightFoot;  // Other foot next time
+      }
+      // "Foot back in" frame
+      else if(this.walkFrames == ANIMFRAMES[1]) {
+        this.changeAnim(this.animState.charAt(0));
       }
     }
   }
