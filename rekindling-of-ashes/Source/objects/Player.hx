@@ -26,7 +26,35 @@ class Player {
   private var animState = 'D';  // Store current animation state
   private var rightFoot = true;  // Is the player walking with their right foot next?
 
-  public function updateMovement() {  // Player walking
+  // Depending on this.walkFrames, choose an animation
+  private function selectWalkAnim() {
+    // "Foot out" frame
+    if(this.walkState == LEFT || this.walkState == RIGHT) {
+      if(this.walkFrames == ANIMFRAMES[0]) {
+        // Update the animation to stick a foot out
+        this.changeAnim(this.animState + (this.rightFoot ? 'R' : 'L'));
+        this.rightFoot = !this.rightFoot;  // Other foot next time
+      }
+      // "Foot back in" frame
+      else if(this.walkFrames == ANIMFRAMES[1]) {
+        this.changeAnim(this.animState.charAt(0));
+      }
+    }
+  }
+
+  // Change to a different animation state
+  private function changeAnim(state:String) {
+    // Set the old animation state to invisible;
+    var animIndex = Player.SPRITEINDEXES[this.animState];
+    this.bitmaps[animIndex].visible = false;
+    // Make the new animation state visible
+    animIndex = Player.SPRITEINDEXES[state];
+    this.bitmaps[animIndex].visible = true;
+    // Update the animation state
+    this.animState = state;
+  }
+
+  public function updateMovement(main:Sprite) {  // Player walking
     var inputs = Input.inputs;
     var last = Input.lastInputs[0];  // Last input takes precedence
 
@@ -75,43 +103,22 @@ class Player {
         // Update tile coordinates
         GameState.xt = Math.floor(GameState.x/TILESIZE);
         GameState.yt = Math.floor(GameState.y/TILESIZE);
+
+        // Check if standing on a warp tile
+        if(collide(STOP) == WARP) {
+          // Let the warp function do the work, using the player's position in GameState
+          worldMap.Warps.warp(main);
+        }
+
         // Reset walkFrames
         this.walkFrames = 0;
       }
     }
   }
 
-  // Depending on this.walkFrames, choose an animation
-  private function selectWalkAnim() {
-    // "Foot out" frame
-    if(this.walkState == LEFT || this.walkState == RIGHT) {
-      if(this.walkFrames == ANIMFRAMES[0]) {
-        // Update the animation to stick a foot out
-        this.changeAnim(this.animState + (this.rightFoot ? 'R' : 'L'));
-        this.rightFoot = !this.rightFoot;  // Other foot next time
-      }
-      // "Foot back in" frame
-      else if(this.walkFrames == ANIMFRAMES[1]) {
-        this.changeAnim(this.animState.charAt(0));
-      }
-    }
-  }
-
-  // Change to a different animation state
-  private function changeAnim(state:String) {
-    // Set the old animation state to invisible;
-    var animIndex = Player.SPRITEINDEXES[this.animState];
-    this.bitmaps[animIndex].visible = false;
-    // Make the new animation state visible
-    animIndex = Player.SPRITEINDEXES[state];
-    this.bitmaps[animIndex].visible = true;
-    // Update the animation state
-    this.animState = state;
-  }
-
   // Main update function
-  public function update() {
-    this.updateMovement();
+  public function update(main:Sprite) {
+    this.updateMovement(main);
   }
 
   // Add player to the display

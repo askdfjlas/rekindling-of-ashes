@@ -7,6 +7,7 @@ import Global.MoveState;
 enum CollisionType {
   PASS;
   WALL;
+  WARP;
 }
 
 class Collision {

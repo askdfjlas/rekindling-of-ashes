@@ -3,7 +3,7 @@ package objects;
 import openfl.display.Sprite;
 
 class ObjectList {
-  public static var objectArray:Array<Object> = [];
+  public var objectArray:Array<Object> = [];
 
   // Render all objects
   public function render(main:Sprite) {
@@ -12,7 +12,7 @@ class ObjectList {
 
     // Keep track of whether the player has been drawn yet
     var playerDrawn = false;
-    for(object in objectArray) {
+    for(object in this.objectArray) {
       /* Objects are sorted in increasing y order; this condition
       means that all further objects will be below the player, and therefore
       should be rendered afterwards */
@@ -29,7 +29,7 @@ class ObjectList {
   // Remove all objects from the view
   public function removeAll(main:Sprite) {
     GameState.vs.remove(main);
-    for(object in objectArray) {
+    for(object in this.objectArray) {
       object.remove(main);
     }
   }
@@ -41,7 +41,7 @@ class ObjectList {
       var x = triple[1];  // x in tiles
       var y = triple[2];  // y in tiles
 
-      objectArray.push(new Object(type, x, y));
+      this.objectArray.push(new Object(type, x, y));
     }
   }
 }

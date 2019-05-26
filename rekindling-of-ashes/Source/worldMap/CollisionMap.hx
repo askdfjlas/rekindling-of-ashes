@@ -20,6 +20,9 @@ class CollisionMap {
           // Wall/collision tile
           case 1:
             currentRow.push(WALL);
+          // Warp to another map
+          case 2:
+            currentRow.push(WARP);
           // If the input array is messed up, consider anything else as passable
           default:
             currentRow.push(PASS);
