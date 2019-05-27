@@ -15,21 +15,17 @@ class Warps {
     ["81"=> [7, 2, 1]]  // Living room
   ];
 
-  public static function warp(main:Sprite) {
+  public static function warp() {
     var currentWarps = Warps.warpsList[GameState.mapNumber];  // Get current list of warps
     var key = '${GameState.xt}${GameState.yt}';  // Key is concatenated coordinates
     var newTriple = currentWarps[key];  // Triple of [new x, new y, room number]
     GameState.state = LOADING;  // Set state to loading
-    main.removeChildren();  // Remove all tiles and objects
-    
+
     // Init new player position
     GameState.xt = newTriple[0];
     GameState.yt = newTriple[1];
     GameState.x = newTriple[0]*TILESIZE;
     GameState.y = newTriple[1]*TILESIZE;
-
     GameState.mapNumber = newTriple[2];  // Update map number
-    GameState.updateMap(main);  // Load new map data
-    GameState.state = PLAYING;  // Set state to PLAYING once more
   }
 }

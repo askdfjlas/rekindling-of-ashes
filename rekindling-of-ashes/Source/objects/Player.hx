@@ -54,7 +54,7 @@ class Player {
     this.animState = state;
   }
 
-  public function updateMovement(main:Sprite) {  // Player walking
+  public function updateMovement() {  // Player walking
     var inputs = Input.inputs;
     var last = Input.lastInputs[0];  // Last input takes precedence
 
@@ -107,7 +107,7 @@ class Player {
         // Check if standing on a warp tile
         if(collide(STOP) == WARP) {
           // Let the warp function do the work, using the player's position in GameState
-          worldMap.Warps.warp(main);
+          worldMap.Warps.warp();
         }
 
         // Reset walkFrames
@@ -117,8 +117,8 @@ class Player {
   }
 
   // Main update function
-  public function update(main:Sprite) {
-    this.updateMovement(main);
+  public function update() {
+    this.updateMovement();
   }
 
   // Add player to the display
