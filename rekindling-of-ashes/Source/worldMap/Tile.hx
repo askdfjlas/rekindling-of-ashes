@@ -3,6 +3,7 @@ package worldMap;
 
 import openfl.display.Sprite;
 import openfl.display.Bitmap;
+import Global.*;
 
 class Tile {
   // The type of the tile is an integer x which corresponds to x.png
@@ -11,6 +12,9 @@ class Tile {
 
   // Place the bitmap on the screen
   public function init(main:Sprite) {
+    // Initially store tiles out of view
+    this.bitmap.x = -TILESIZE;
+    this.bitmap.y = -TILESIZE;
     main.addChild(this.bitmap);
   }
 

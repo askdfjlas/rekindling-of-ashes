@@ -32,6 +32,25 @@ class GameState {
   public static var collisionMap:CollisionMap;
   public static var objectList:ObjectList;
 
+  // Load the next region when the player warps
+  public static function loadRegion(main:Sprite) {
+    var fade = effects.EffectManager.fade;
+    /* Play the fade animation; do different things depending on how
+    much time has elapsed */
+    switch(fade.play(main)) {
+      case ANIMATING:  // Do nothing
+      case LOADTIME:
+        main.removeChildren();  // Clear screen
+        GameState.updateMap(main);  // Update the map while the screen is dark
+        // Do one frame of rendering to put objects/tiles in their places
+        GameState.tileMap.render();  // Render tilemap
+        GameState.objectList.render(main);  // Render objects
+        main.addChild(fade);  // Re-add the fade object
+      case DONE:  // No longer loading
+        GameState.state = PLAYING;
+    }
+  }
+
   // Store and update map as part of the game state
   public static function updateMap(main:Sprite) {
     // Set the new tile map, collision map, and object list

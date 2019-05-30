@@ -13,9 +13,10 @@ class Player {
   private static var YOFFSET = 16;
   private static var IMAGEPATH:String = "assets/Sprites/People/Player/";  // Image sprite
   private static var SPRITENAMES = ['U','D', 'L', 'R',  // Player{U/D/...}.png
-                                    'LL', 'LR', 'RL', 'RR'];
+                                    'LL', 'LR', 'RL', 'RR', 'UL', 'UR', 'DL', 'DR'];
   private static var SPRITEINDEXES = ['U'=> 0, 'D'=> 1, 'L'=> 2, 'R'=> 3,
-                                      'LL'=> 4, 'LR'=> 5, 'RL'=> 6, 'RR'=> 7];
+                                      'LL'=> 4, 'LR'=> 5, 'RL'=> 6, 'RR'=> 7,
+                                      'UL'=> 8, 'UR'=> 9, 'DL'=> 10, 'DR'=> 11];
   public static var MOVESPEED = 2;  // Movement speed, must divide TILESIZE
   private static var TOTALWALKFRAMES = Std.int(TILESIZE/MOVESPEED);
   private static var ANIMFRAMES = [4, 12];  // Range of "foot out" animation
@@ -29,16 +30,14 @@ class Player {
   // Depending on this.walkFrames, choose an animation
   private function selectWalkAnim() {
     // "Foot out" frame
-    if(this.walkState == LEFT || this.walkState == RIGHT) {
-      if(this.walkFrames == ANIMFRAMES[0]) {
-        // Update the animation to stick a foot out
-        this.changeAnim(this.animState + (this.rightFoot ? 'R' : 'L'));
-        this.rightFoot = !this.rightFoot;  // Other foot next time
-      }
-      // "Foot back in" frame
-      else if(this.walkFrames == ANIMFRAMES[1]) {
-        this.changeAnim(this.animState.charAt(0));
-      }
+    if(this.walkFrames == ANIMFRAMES[0]) {
+      // Update the animation to stick a foot out
+      this.changeAnim(this.animState + (this.rightFoot ? 'R' : 'L'));
+      this.rightFoot = !this.rightFoot;  // Other foot next time
+    }
+    // "Foot back in" frame
+    else if(this.walkFrames == ANIMFRAMES[1]) {
+      this.changeAnim(this.animState.charAt(0));
     }
   }
 

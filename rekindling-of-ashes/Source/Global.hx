@@ -12,7 +12,7 @@ enum MoveState {
 }
 
 class Global {
-  public static var FRAMERATE = 55;  // Frame rate
+  public static var FRAMERATE = 60;  // Frame rate
   public static var SHOWFRAMERATE = false;  // Show frame rate?
 
   public static var TILESIZE:Int = 32;  // Tiles are 32x32 pixels
