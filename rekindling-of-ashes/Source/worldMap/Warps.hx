@@ -6,26 +6,32 @@ import Global.*;
 import GameState.State;
 
 class Warps {
+  // Set player animation when entering a new region
+  private static var ANIM_MAP:Map<Int, String> =
+    [-1=> 'S', 0=> 'U', 1=> 'D', 2=> 'L', 3=> 'R'];
+
   /* Warp points are hashmaps with [String of concatenated coordinates =>
-  [new x in tiles, new y in tiles, new map number]
-  There is are warp points per each room */
+  [new x in tiles, new y in tiles, new map number, animation number]
+  There are warp points per each room */
   private static var warpsList:Array<Map<String, Array<Int>>>  = [
     [''=> []], // First test map
-    ["71"=> [7, 1, 2]],  // Bedroom
-    ["81"=> [7, 2, 1]]  // Living room
+    ["7 1"=> [9, 2, 2, 2]],  // Bedroom
+    ["10 2"=> [7, 2, 1, 1]]  // Living room
   ];
 
+  // Player steps on a warp, like a door
   public static function warp() {
     var currentWarps = Warps.warpsList[GameState.mapNumber];  // Get current list of warps
-    var key = '${GameState.xt}${GameState.yt}';  // Key is concatenated coordinates
-    var newTriple = currentWarps[key];  // Triple of [new x, new y, room number]
+    var key = '${GameState.xt} ${GameState.yt}';  // Key is concatenated coordinates
+    var newQuad = currentWarps[key];  // Quad of [new x, new y, room number, animation]
     GameState.state = LOADING;  // Set state to loading
 
     // Init new player position
-    GameState.xt = newTriple[0];
-    GameState.yt = newTriple[1];
-    GameState.x = newTriple[0]*TILESIZE;
-    GameState.y = newTriple[1]*TILESIZE;
-    GameState.mapNumber = newTriple[2];  // Update map number
+    GameState.xt = newQuad[0];
+    GameState.yt = newQuad[1];
+    GameState.x = newQuad[0]*TILESIZE;
+    GameState.y = newQuad[1]*TILESIZE;
+    GameState.mapNumber = newQuad[2];  // Update map number
+    GameState.bufferedAnim = ANIM_MAP[newQuad[3]];  // Buffer animation state
   }
 }

@@ -7,7 +7,7 @@ import Global.*;
 
 class Fade extends Sprite {
   // Number of frames in the fade animation
-  private static var NUMFRAMES:Int = 20;
+  private static var NUMFRAMES:Int = 30;
   // Loops from -NUMFRAMES to 0 for the fade out, then 0 to NUMFRAMES for fade in
   private var frameCount:Int = -NUMFRAMES;
   public var added:Bool = false;  // Keep track of whether the rect has been added yet

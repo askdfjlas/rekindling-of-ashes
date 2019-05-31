@@ -13,8 +13,8 @@ class Tile {
   // Place the bitmap on the screen
   public function init(main:Sprite) {
     // Initially store tiles out of view
-    this.bitmap.x = -TILESIZE;
-    this.bitmap.y = -TILESIZE;
+    this.bitmap.x = -10*TILESIZE;
+    this.bitmap.y = -10*TILESIZE;
     main.addChild(this.bitmap);
   }
 

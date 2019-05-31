@@ -24,8 +24,8 @@ class Player {
   private var bitmaps:Array<Bitmap> = [];  // Player bitmaps
   private var walkState:MoveState = STOP;  // Stopped or moving in a direction
   private var walkFrames:Int = 0;  // Frame counter of walk animation
-  private var animState = 'D';  // Store current animation state
   private var rightFoot = true;  // Is the player walking with their right foot next?
+  public var animState = 'D';  // Store current animation state
 
   // Depending on this.walkFrames, choose an animation
   private function selectWalkAnim() {
@@ -41,19 +41,7 @@ class Player {
     }
   }
 
-  // Change to a different animation state
-  private function changeAnim(state:String) {
-    // Set the old animation state to invisible;
-    var animIndex = Player.SPRITEINDEXES[this.animState];
-    this.bitmaps[animIndex].visible = false;
-    // Make the new animation state visible
-    animIndex = Player.SPRITEINDEXES[state];
-    this.bitmaps[animIndex].visible = true;
-    // Update the animation state
-    this.animState = state;
-  }
-
-  public function updateMovement() {  // Player walking
+  private function updateMovement() {  // Player walking
     var inputs = Input.inputs;
     var last = Input.lastInputs[0];  // Last input takes precedence
 
@@ -113,6 +101,21 @@ class Player {
         this.walkFrames = 0;
       }
     }
+  }
+
+  // Change to a different animation state
+  public function changeAnim(state:String) {
+    if(state == 'S') {  // 's' means don't change the state
+      return;
+    }
+    // Set the old animation state to invisible;
+    var animIndex = Player.SPRITEINDEXES[this.animState];
+    this.bitmaps[animIndex].visible = false;
+    // Make the new animation state visible
+    animIndex = Player.SPRITEINDEXES[state];
+    this.bitmaps[animIndex].visible = true;
+    // Update the animation state
+    this.animState = state;
   }
 
   // Main update function

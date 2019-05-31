@@ -20,11 +20,14 @@ class GameState {
 
   // Player position in pixels
   public static var x:Int = 32;
-  public static var y:Int = 64;
+  public static var y:Int = 96;
 
   // Player position in tiles
   public static var xt:Int = 1;
-  public static var yt:Int = 2;
+  public static var yt:Int = 3;
+
+  // Buffer a player animation to process during loading
+  public static var bufferedAnim:String;
 
   // Current tilemap the player is on
   public static var mapNumber:Int = 1;
@@ -43,6 +46,7 @@ class GameState {
         main.removeChildren();  // Clear screen
         GameState.updateMap(main);  // Update the map while the screen is dark
         // Do one frame of rendering to put objects/tiles in their places
+        GameState.vs.changeAnim(GameState.bufferedAnim);  // Update player facing
         GameState.tileMap.render();  // Render tilemap
         GameState.objectList.render(main);  // Render objects
         main.addChild(fade);  // Re-add the fade object
